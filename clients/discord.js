@@ -25,7 +25,7 @@ class DiscordClient {
             try {
                 if (message.content.indexOf(`<@${global.DISCORD_UID}>`) > -1 && !message.author.bot) {
                     response = await handleDirectMessage(message.content.replace(new RegExp(`<@${global.DISCORD_UID}>,? `, 'i'), ''), author)
-                } else {
+                } else if (!message.author.bot) {
                     response = await handleGlobalMessage(message.content, author)
                 }
             } catch (err) {
