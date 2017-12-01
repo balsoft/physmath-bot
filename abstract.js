@@ -11,10 +11,17 @@ class Member {
     constructor(name, birthdate, extra) {
         this.name = name
         this.birthdate = birthdate
-        this.extra = extra
-        global.db.query(`INSERT INTO members VALUES ($1, $2, $3)`, [this.name, this.birthdate, JSON.stringify(this.extra)]).catch(() => {
-            global.db.query(`UPDATE members SET birthdate=$2, extra=$3 WHERE name=$1`, [this.name, this.birthdate, JSON.stringify(this.extra)])
+        this._extra = extra
+        global.db.query(`INSERT INTO members VALUES ($1, $2, $3)`, [this.name, this.birthdate, JSON.stringify(this._extra)]).catch(() => {
+            global.db.query(`UPDATE members SET birthdate=$2, extra=$3 WHERE name=$1`, [this.name, this.birthdate, JSON.stringify(this._extra)])
         })
+    }
+    get extra() {
+        return this._extra
+    }
+    set extra(val) {
+        this._extra = val
+        this.push()
     }
     /**
      * Найти человека по имени
