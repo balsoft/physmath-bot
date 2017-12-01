@@ -26,9 +26,6 @@ async function main() {
     return true;
 }
 before(main)
-after(async function () {
-    await global.db.query(`DROP TABLE members;`)
-})
 describe('Members', () => {
     describe('DB interaction', () => {
         it('Should get all members', async function () {
@@ -101,4 +98,8 @@ describe('Message handlers', () => {
             })
         })
     })
+})
+
+after(async function () {
+    await global.db.query(`DROP TABLE members;`)
 })
