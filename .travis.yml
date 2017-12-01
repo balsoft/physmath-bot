@@ -1,0 +1,14 @@
+language: node_js
+sudo: false
+node_js:
+  - "9.2"
+services:
+  - postgresql
+addons:
+  postgresql: "9.6"
+install:
+  - npm install
+test:
+  - npm test
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
