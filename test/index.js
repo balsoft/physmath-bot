@@ -84,6 +84,14 @@ describe('Message handlers', () => {
                 assert.equal((await handleDirectMessage('цитата 1')), '```<Ares> ppdv, все юниксы очень дружелюбны.. они просто очень разборчивы в друзьях ;)```:copyright: bash.im, цитата #1')
             })
         })
+        describe('eval', () => {
+            it('Should work when admin calls it', async function () {
+                assert.equal(await handleDirectMessage('eval "test"', Member.findBy('admin', true)), 'test')
+            })
+            it('Should fail when not-admin calls it', async function () {
+                assert.throws(await handleDirectMessage('eval "evilstuff"', Member.findByName('Петров')))
+            })
+        })
     })
     describe('global', () => {
         it('Should not bother when nothing matches', async function () {
