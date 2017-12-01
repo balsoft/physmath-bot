@@ -23,7 +23,7 @@ const globalHandlers = require('./globalHandlers')
  * @returns {string} ответ
  */
 async function handleGlobalMessage(text, author) {
-    for (i in globaltHandlers) {
+    for (i in globalHandlers) {
         if (RegExp(i, 'i').test(text)) {
             return await globalHandlers[i](text, author, text.match(RegExp(i, 'i')))
         }
