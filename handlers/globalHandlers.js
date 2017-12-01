@@ -1,6 +1,9 @@
 const globalHandlers = {
-    "бот": async function (text, author, match) {
-        return "а? что? кто? я?"
+    /**
+     * Антимат
+     */
+    "хуй|пизда|мудак|еб|ёб": async function (text, author, match) {
+        return "**НЕ МАТЕРИСЬ**"
     }
 }
 module.exports = globalHandlers
