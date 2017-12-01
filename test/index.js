@@ -86,10 +86,14 @@ describe('Message handlers', () => {
         })
         describe('eval', () => {
             it('Should work when admin calls it', async function () {
-                assert.equal(await handleDirectMessage('eval "test"', Member.findBy('admin', true)), 'test')
+                assert.equal(await handleDirectMessage('eval "test"', await Member.findBy('admin', true)), 'test')
             })
             it('Should fail when not-admin calls it', async function () {
-                assert.throws(await handleDirectMessage('eval "evilstuff"', Member.findByName('Петров')))
+                handleDirectMessage('eval "evilstuff"', await Member.findByName('Петров')).then(()=>{
+                    assert.fail('bad')
+                }).catch(()=>{
+                    console.log('ok')
+                })
             })
         })
     })
