@@ -36,14 +36,14 @@ class DiscordClient {
                 message.channel.send(`<@${message.author.id}>, ${response}`)
         })
         this._client.login(global.DISCORD_TOKEN)
-        this._hook = new Discord.WebhookClient(global.DISCORD_HOOK_ID, global.DISCORD_HOOK_TOKEN)
+        this._hook = new Discord.WebhookClient(global.DISCORD_HOOK_UID, global.DISCORD_HOOK_TOKEN)
     }
     /**
      * 
      * @param {string} msg 
      */
-    sendMessage(msg) {
-        this._hook.send(msg)
+    async sendMessage(msg) {
+        return this._hook.send(msg)
     }
 }
 

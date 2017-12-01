@@ -25,7 +25,7 @@ const client = new Discord.Client();
 global.DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 
 global.DISCORD_UID = process.env.DISCORD_UID;
-global.DISCORD_HOOK_ID = process.env.DISCORD_HOOK_ID;
+global.DISCORD_HOOK_UID = process.env.DISCORD_HOOK_UID;
 global.DISCORD_HOOK_TOKEN = process.env.DISCORD_HOOK_TOKEN;
 
 // Объявляем переменные
