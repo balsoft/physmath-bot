@@ -111,7 +111,3 @@ describe('Message handlers', () => {
         })
     })
 })
-
-after(async function () {
-    await global.db.query(`DROP TABLE members;`)
-})
