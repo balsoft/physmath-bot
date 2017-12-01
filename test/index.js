@@ -94,7 +94,7 @@ describe('Message handlers', () => {
         })
         describe('антимат', () => {
             it('Should react to sweary words', async function () {
-                assert.equal(await handleGlobalMessage('ебаный мудак!'), "**НЕ МАТtЕРИСЬ**")
+                assert.equal(await handleGlobalMessage('ебаный мудак!'), "**НЕ МАТЕРИСЬ**")
             })
         })
     })
