@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 
 const {
-	match
+	handleDirectMessage,
+	handleGlobalMessage
 } = require('./handlers')
 const {
 	Member
@@ -49,31 +50,39 @@ function parseRussianDate(str) {
  * Проверить, есть ли дни рождения в ближайшее время
  */
 
-async function checkForBirthdays(members, hook) {
+async function checkForBirthdays(members, clients) {
+	var messages = []
 	for (var i in members) {
-		if (daysTillEvent(parseRussianDate(members[i].birthdate)) == 3) {
-			hook.send(`Через 3 дня рождения празднует ${members[i].name}!`)
-		} else if (daysTillEvent(parseRussianDate(members[i].birthdate)) == 1) {
-			hook.send(`Завтра день рождения празднует ${members[i].name}!`)
-		} else if (daysTillEvent(parseRussianDate(members[i].birthdate)) == 0) {
-			hook.send(`Сегодня день рождения празднует ${members[i].name}! Поздравляем! :birthday: :birthday:`)
+		if (daysTillEvent(members[i].birthdate) == 3) {
+			message.push(`Через 3 дня рождения празднует ${members[i].name}!`)
+		} else if (daysTillEvent(members[i].birthdate) == 1) {
+			messages.push(`Завтра день рождения празднует ${members[i].name}!`)
+		} else if (daysTillEvent(members[i].birthdate) == 0) {
+			messages.push(`Сегодня день рождения празднует ${members[i].name}! Поздравляем! :birthday: :birthday:`)
 		}
 	}
+	if (messages.length > 0)
+		for (i in clients)
+			for (k in messages)
+				clients[i].sendMessage(messages[k])
 }
 
 
 app.set('port', (process.env.PORT || 5000));
 app.get('/', function (request, response) {
-	response.end('Сервер physmath-bot.')
+	response.end('Server physmath-bot.')
 });
 
 app.listen(app.get('port'), function () {
 	console.log('Node app is running on port', app.get('port'));
 });
-const {DiscordClient} = require('./clients')
+const {
+	DiscordClient
+} = require('./clients')
 async function main() {
-	var hook = new Discord.WebhookClient(DISCORD_HOOK_ID, DISCORD_HOOK_TOKEN)
-	await checkForBirthdays(await Member.getAll(), hook)
-	new DiscordClient(match)
+	clients = [
+		new DiscordClient(handleDirectMessage, handleGlobalMessage)
+	]
+	await checkForBirthdays(await Member.getAll(), clients)
 }
 main()

@@ -1,5 +1,6 @@
 const {
-    match
+    handleDirectMessage,
+    handleGlobalMessage
 } = require('../handlers')
 
 const {
@@ -25,7 +26,7 @@ async function main() {
     return true;
 }
 before(main)
-after(async function (){
+after(async function () {
     await global.db.query(`DROP TABLE members;`)
 })
 describe('Members', () => {
@@ -47,42 +48,54 @@ describe('Members', () => {
 })
 
 describe('Message handlers', () => {
-    describe('ping', () => {
-        it('Should return pong', async function () {
-            assert.equal(await match('ping'), 'pong')
+    describe('direct', () => {
+        describe('ping', () => {
+            it('Should return pong', async function () {
+                assert.equal(await handleDirectMessage('ping'), 'pong')
+            })
+        })
+        describe('echo', () => {
+            it('Should echo back the argument', async function () {
+                assert.equal(await handleDirectMessage('echo Hello!'), 'Hello!')
+            })
+            it('Should react to russian "скажи"', async function () {
+                assert.equal(await handleDirectMessage('скажи Привет!'), 'Привет!')
+            })
+        })
+        describe('др', () => {
+            it('Should work fine on "ближайший"', async function () {
+                assert.ok(await handleDirectMessage('др ближайший'))
+            })
+            it('Should work fine on names', async function () {
+                assert.ok(await handleDirectMessage('др Петров'))
+            })
+            it('Should work with order reversed', async function () {
+                const arr = await Promise.all([handleDirectMessage('Петров др'), handleDirectMessage('др Петров')])
+                assert.equal(arr[0], arr[1])
+            })
+            it('Should fail on bad names', async function () {
+                handleDirectMessage('др Лохов').then(() => {
+                    assert.fail('Success when error was expected')
+                }).catch(() => {})
+            })
+        })
+        describe('цитата', () => {
+            it('Should work without arguments', async function () {
+                assert.ok(await handleDirectMessage('цитата'))
+            })
+            it('Should return fixed value when called with an argument', async function () {
+                assert.equal((await handleDirectMessage('цитата 1')), '```<Ares> ppdv, все юниксы очень дружелюбны.. они просто очень разборчивы в друзьях ;)```:copyright: bash.im, цитата #1')
+            })
         })
     })
-    describe('echo', () => {
-        it('Should echo back the argument', async function () {
-            assert.equal(await match('echo Hello!'), 'Hello!')
+    describe('global', () => {
+        it('Should not bother when nothing matches', async function() {
+            assert.equal(await handleGlobalMessage('фывапр', undefined))
         })
-        it('Should react to russian "скажи"', async function () {
-            assert.equal(await match('скажи Привет!'), 'Привет!')
-        })
-    })
-    describe('др', () => {
-        it('Should work fine on "ближайший"', async function () {
-            assert.ok(await match('др ближайший'))
-        })
-        it('Should work fine on names', async function () {
-            assert.ok(await match('др Петров'))
-        })
-        it('Should work with order reversed', async function () {
-            const arr = await Promise.all([match('Петров др'), match('др Петров')])
-            assert.equal(arr[0], arr[1])
-        })
-        it('Should fail on bad names', async function () {
-            match('др Лохов').then(() => {
-                assert.fail('Success when error was expected')
-            }).catch(() => {})
-        })
-    })
-    describe('цитата', () => {
-        it('Should work without arguments', async function () {
-            assert.ok(await match('цитата'))
-        })
-        it('Should return fixed value when called with an argument', async function () {
-            assert.equal((await match('цитата 1')), '```<Ares> ppdv, все юниксы очень дружелюбны.. они просто очень разборчивы в друзьях ;)```:copyright: bash.im, цитата #1')
+        describe('бот', () => {
+            it('Should react to messages inside words', async function () {
+                assert.equal(await handleGlobalMessage('Я робот'), "а? что? кто? я?")
+            })
         })
     })
 })
