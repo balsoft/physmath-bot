@@ -69,7 +69,7 @@ const directHandlers = {
     },
     "evalAsync (.*)": async function (text, author, match) {
         if (!author.extra.admin) throw "Недостаточно прав"
-        return '```' + await eval('async function () {' + match[1] + '}')() + '```'
+        return '```' + await eval('async function a() {' + match[1] + '};a')() + '```'
     }
 }
 module.exports = directHandlers
