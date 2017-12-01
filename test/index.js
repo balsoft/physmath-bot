@@ -89,15 +89,15 @@ describe('Message handlers', () => {
         })
     })
     describe('global', () => {
-        it('Should not bother when nothing matches', async function() {
+        it('Should not bother when nothing matches', async function () {
             assert.equal(await handleGlobalMessage('фывапр'), undefined)
         })
         describe('антимат', () => {
             it('Should react to sweary words', async function () {
-                assert.equal(await handleGlobalMessage('ебаный мудак!', Member.findByName('Петров')), "**НЕ МАТЕРИСЬ**")
+                assert.equal(await handleGlobalMessage('ебаный мудак!', await Member.findByName('Петров')), "**НЕ МАТЕРИСЬ**")
             })
             it('Should not react to sweary words by admin', async function () {
-                assert.equal(await handleGlobalMessage('ебаный мудак!', Member.findBy('admin', true)), undefined)
+                assert.equal(await handleGlobalMessage('ебаный мудак!', await Member.findBy('admin', true)), undefined)
             })
         })
     })
