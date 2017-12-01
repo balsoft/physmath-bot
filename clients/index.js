@@ -1,3 +1,3 @@
 module.exports = {
-    Discord: require('./discord')
+    DiscordClient: require('./discord')
 }

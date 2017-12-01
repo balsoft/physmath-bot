@@ -2,8 +2,6 @@ language: node_js
 sudo: false
 node_js:
   - "9.2"
-services:
-  - postgresql
 addons:
   postgresql: "9.6"
 install:

@@ -70,10 +70,10 @@ app.get('/', function (request, response) {
 app.listen(app.get('port'), function () {
 	console.log('Node app is running on port', app.get('port'));
 });
-const {Discord} = require('./clients')
+const {DiscordClient} = require('./clients')
 async function main() {
 	var hook = new Discord.WebhookClient(DISCORD_HOOK_ID, DISCORD_HOOK_TOKEN)
 	await checkForBirthdays(await Member.getAll(), hook)
-	new Discord(match)
+	new DiscordClient(match)
 }
 main()
