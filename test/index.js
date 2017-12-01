@@ -92,9 +92,9 @@ describe('Message handlers', () => {
         it('Should not bother when nothing matches', async function() {
             assert.equal(await handleGlobalMessage('фывапр', undefined))
         })
-        describe('бот', () => {
-            it('Should react to messages inside words', async function () {
-                assert.equal(await handleGlobalMessage('Я робот'), "а? что? кто? я?")
+        describe('антимат', () => {
+            it('Should react to sweary words', async function () {
+                assert.equal(await handleGlobalMessage('ебаный мудак!'), "**НЕ МАТtЕРИСЬ**")
             })
         })
     })
