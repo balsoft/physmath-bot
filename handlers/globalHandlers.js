@@ -2,7 +2,7 @@ const globalHandlers = {
     /**
      * Антимат
      */
-    "хуй|пизда|мудак|еб|ёб": async function (text, author, match) {
+    "хуй|пизда|мудак|еба|ёба|пидор|бля": async function (text, author, match) {
         return "**НЕ МАТЕРИСЬ**"
     }
 }
