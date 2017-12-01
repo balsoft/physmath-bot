@@ -65,6 +65,10 @@ const directHandlers = {
     },
     "лох": async function (text, author, match) {
         return "Сам лох!"
+    },
+    "eval (.*)": async function (text, author, match) {
+        if (!author.extra.admin) throw "Недостаточно прав"
+        return '```' + eval(match[1]) + '```'
     }
 }
 module.exports = directHandlers
