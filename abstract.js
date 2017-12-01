@@ -83,6 +83,9 @@ class Member {
             await global.db.query(`UPDATE members SET birthdate=$2, extra=$3 WHERE name=$1`, [this.name, this.birthdate, JSON.stringify(this.extra)])
         }
     }
+    async delete() {
+        await global.db.query(`DELETE FROM members WHERE name=$1`, [this.name])
+    }
 }
 module.exports = {
     Member

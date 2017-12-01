@@ -41,6 +41,12 @@ describe('Members', () => {
             await new Member('Новый Ч.К.', new Date(), null).push()
             assert.equal((await Member.findByName('Новый')).name, 'Новый Ч.К.')
         })
+        it('Should delete data from DB', async function () {
+            await (await Member.findByName('Сидоров')).delete()
+            Member.findByName('Сидоров').then(()=>{
+                assert.fail('didnt delete')
+            }).catch(()=>{})
+        })
     })
 })
 
@@ -91,9 +97,7 @@ describe('Message handlers', () => {
             it('Should fail when not-admin calls it', async function () {
                 handleDirectMessage('eval "evilstuff"', await Member.findByName('Петров')).then(()=>{
                     assert.fail('bad')
-                }).catch(()=>{
-                    console.log('ok')
-                })
+                }).catch(()=>{})
             })
         })
     })
