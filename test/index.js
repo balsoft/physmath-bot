@@ -1,3 +1,8 @@
+global.DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+
+global.DISCORD_UID = process.env.DISCORD_UID;
+global.DISCORD_HOOK_ID = process.env.DISCORD_HOOK_ID;
+global.DISCORD_HOOK_TOKEN = process.env.DISCORD_HOOK_TOKEN;
 const {
     handleDirectMessage,
     handleGlobalMessage
@@ -43,9 +48,9 @@ describe('Members', () => {
         })
         it('Should delete data from DB', async function () {
             await (await Member.findByName('Сидоров')).delete()
-            Member.findByName('Сидоров').then(()=>{
+            Member.findByName('Сидоров').then(() => {
                 assert.fail('didnt delete')
-            }).catch(()=>{})
+            }).catch(() => {})
         })
     })
 })
@@ -95,9 +100,9 @@ describe('Message handlers', () => {
                 assert.equal(await handleDirectMessage('eval "test"', await Member.findBy('admin', true)), '```test```')
             })
             it('Should fail when not-admin calls it', async function () {
-                handleDirectMessage('eval "evilstuff"', await Member.findByName('Петров')).then(()=>{
+                handleDirectMessage('eval "evilstuff"', await Member.findByName('Петров')).then(() => {
                     assert.fail('bad')
-                }).catch(()=>{})
+                }).catch(() => {})
             })
         })
     })
