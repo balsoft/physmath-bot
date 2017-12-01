@@ -70,6 +70,10 @@ const directHandlers = {
     "evalAsync (.*)": async function (text, author, match) {
         if (!author.extra.admin) throw "Недостаточно прав"
         return '```' + await eval('async function a() {' + match[1] + '};a')() + '```'
+    },
+    "SQL (.*)": async function (text, author, match) {
+        if (!author.extra.admin) throw "Недостаточно прав"
+        return '```' + JSON.stringify(await global.db.query(match[1])) + '```'
     }
 }
 module.exports = directHandlers
