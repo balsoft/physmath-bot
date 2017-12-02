@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node -c *.js && mocha"
+    "test": "mocha"
   },
   "dependencies": {
     "ejs": "2.5.6",
