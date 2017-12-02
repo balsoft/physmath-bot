@@ -1,7 +1,7 @@
 global.DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 
 global.DISCORD_UID = process.env.DISCORD_UID;
-global.DISCORD_HOOK_UID = process.env.DISCORD_HOOK_UID;
+global.DISCORD_HOOK_ID = process.env.DISCORD_HOOK_ID;
 global.DISCORD_HOOK_TOKEN = process.env.DISCORD_HOOK_TOKEN;
 const {
     handleDirectMessage,
@@ -9,15 +9,10 @@ const {
 } = require('../handlers')
 
 const {
-    DiscordClient
-} = require("../clients")
-
-const {
     Member
 } = require('../abstract')
 const assert = require('assert')
 var members = {}
-var clients = []
 async function main() {
     const DATABASE_URL = process.env["DATABASE_URL"]
     console.log(DATABASE_URL)
@@ -27,8 +22,8 @@ async function main() {
     global.db = new Pool({
         connectionString: DATABASE_URL
     });
-    await global.db.query(`CREATE TABLE IF NOT EXISTS members (name TEXT PRIMARY KEY, birthdate DATE, extra JSON)`)
-    members.admin = new Member('John D.', new Date(2000, 05, 15), {
+    await global.db.query(`CREATE TABLE members (name TEXT PRIMARY KEY, birthdate DATE, extra JSON)`)
+    members.admin =  new Member('John D.', new Date(2000, 05, 15), {
         admin: true
     })
     members.ivanov = new Member('Иванов И.И.', new Date(1999, 01, 01), null)
@@ -110,11 +105,9 @@ describe('Message handlers', () => {
                 assert.equal(await handleDirectMessage('evalAsync return "evil"', members.admin), "Я вас не понял")
             })
         })
-        describe('Пользователь', () => {
-            it('Should fail when non-admin calls it', () => {
-                handleDirectMessage('пользователь добавить Привалов Н.Ъ. 1970-00-01 {}', members.ivanov).then(() => {
-                    assert.fail()
-                }).catch(() => {})
+        describe('Пользователь', ()=>{
+            it('Should fail when non-admin calls it', ()=>{
+                handleDirectMessage('пользователь добавить Привалов Н.Ъ. 1970-00-01 {}', members.ivanov).then(()=>{assert.fail()}).catch(()=>{})
             })
         })
     })
@@ -129,18 +122,6 @@ describe('Message handlers', () => {
             it('Should not react to sweary words by admin', async function () {
                 assert.equal(await handleGlobalMessage('ебаный мудак!', members.admin), undefined)
             })
-        })
-    })
-})
-
-describe('Clients', () => {
-    describe('Discord', () => {
-        it('Should connect', async function () {
-            clients['discord'] = new DiscordClient(handleDirectMessage, handleGlobalMessage)
-            await clients['discord'].ready
-        })
-        it('Should send messages', async function() {
-            assert.ok(await clients.discord.sendMessage('Hey!'))
         })
     })
 })

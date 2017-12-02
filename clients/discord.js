@@ -10,14 +10,6 @@ class DiscordClient {
      */
     constructor(handleDirectMessage, handleGlobalMessage) {
         this._client = new Discord.Client()
-        this.ready = new Promise((resolve, reject) => {
-            this._client.on('ready', () => {
-                resolve()
-            })
-            this._client.on("error", () => {
-                reject()
-            })
-        })
         this._client.on('message', async function (message) {
             var response, author
             try {
@@ -51,7 +43,7 @@ class DiscordClient {
      * @param {string} msg 
      */
     async sendMessage(msg) {
-        return await this._hook.send(msg)
+        return this._hook.send(msg)
     }
 }
 
