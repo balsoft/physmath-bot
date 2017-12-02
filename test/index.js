@@ -27,7 +27,7 @@ async function main() {
     global.db = new Pool({
         connectionString: DATABASE_URL
     });
-    await global.db.query(`CREATE TABLE members (name TEXT PRIMARY KEY, birthdate DATE, extra JSON)`)
+    await global.db.query(`CREATE TABLE IF NOT EXISTS members (name TEXT PRIMARY KEY, birthdate DATE, extra JSON)`)
     members.admin = new Member('John D.', new Date(2000, 05, 15), {
         admin: true
     })
