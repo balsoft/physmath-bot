@@ -14,23 +14,25 @@ function daysTillEvent(event) {
     return (Math.floor((event.setYear(0) - new Date(Date.now()).setYear(0)) / (1000 * 60 * 60 * 24)) + 1 + 365) % 365
 }
 const directHandlers = {
-    "др (.*)|(.*) др": async function (text, author, match) {
+    "др ближайший|ближайший др": async function (text, author, match) {
+        const members = await Member.getAll()
+        var min = 365
+        var closest
+        for (var i in members) {
+            if (daysTillEvent(members[i].birthdate) < min) {
+                min = daysTillEvent(members[i].birthdate)
+                closest = members[i]
+            }
+        }
+        return `Ближайший день рождения празднует ${closest.name}, это будет ${dateFormat('{month-name}, {day}', closest.birthdate)} (через ${min} дней)`
+
+    },
+    "др ([А-Яа-я]*)|([А-Яа-я]*) др": async function (text, author, match) {
         const members = await Member.getAll()
         const obj = match[1] || match[2]
-        if (obj == 'ближайший') {
-            var min = 365
-            var closest
-            for (var i in members) {
-                if (daysTillEvent(members[i].birthdate) < min) {
-                    min = daysTillEvent(members[i].birthdate)
-                    closest = members[i]
-                }
-            }
-            return `Ближайший день рождения празднует ${closest.name}, это будет ${dateFormat('{month-name}, {day}', closest.birthdate)} (через ${min} дней)`
-        } else {
-            const member = await Member.findByName(obj)
-            return `${member.name} празднует день рождения ${dateFormat('{month-name}, {day}', member.birthdate)}, через ${daysTillEvent(member.birthdate)} дней`
-        }
+        const member = await Member.findByName(obj)
+        return `${member.name} празднует день рождения ${dateFormat('{month-name}, {day}', member.birthdate)}, через ${daysTillEvent(member.birthdate)} дней`
+
     },
     "ping": async function (text, author, match) {
         return 'pong'
@@ -83,22 +85,26 @@ const directHandlers = {
         var name = match[1]
         var birthdate = new Date(match[2])
         var extra = JSON.parse(match[3])
-        await (new Member(name, birthdate, extra))
+        await (new Member(name, birthdate, extra)).push()
+        return 'Ok'
     },
     "пользовател(?:и|ь) удалить ([\u0400-\u04FF]*)": async function (text, author, match) {
         if (!author.extra.admin) throw "Недостаточно прав"
         var name = match[1]
         await (await Member.findByName(name)).delete()
+        return 'Ok'
     },
     "пользовател(?:и|ь) изменить ([\u0400-\u04FF]*?) установить (.*?) в (.*)": async function (text, author, match) {
         if (!author.extra.admin) throw "Недостаточно прав"
         const member = await Member.findByName(match[1])
         member.extra[match[2]] = JSON.parse(match[3])
+        return 'Ok'
     },
     "пользовател(?:и|ь) (.*?) это <@(\\d*)>": async function (text, author, match) {
         if (!author.extra.admin) throw "Недостаточно прав"
         const member = await Member.findByName(match[1])
         member.extra.discordid = match[2]
+        return 'Ok'
     }
 }
 module.exports = directHandlers

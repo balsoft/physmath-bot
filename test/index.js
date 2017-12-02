@@ -12,6 +12,7 @@ const {
     Member
 } = require('../abstract')
 const assert = require('assert')
+var members = {}
 async function main() {
     const DATABASE_URL = process.env["DATABASE_URL"]
     console.log(DATABASE_URL)
@@ -22,12 +23,12 @@ async function main() {
         connectionString: DATABASE_URL
     });
     await global.db.query(`CREATE TABLE members (name TEXT PRIMARY KEY, birthdate DATE, extra JSON)`)
-    await new Member('John D.', new Date(2000, 05, 15), {
+    members.admin = await new Member('John D.', new Date(2000, 05, 15), {
         admin: true
     }).push()
-    await new Member('Иванов И.И.', new Date(1999, 01, 01), null).push()
-    await new Member('Петров П.П.', new Date(1999, 02, 02), null).push()
-    await new Member('Сидоров С.С.', new Date(1999, 03, 03), null).push()
+    members.ivanov = await new Member('Иванов И.И.', new Date(1999, 01, 01), null).push()
+    members.petrov = await new Member('Петров П.П.', new Date(1999, 02, 02), null).push()
+    members.sidorov = await new Member('Сидоров С.С.', new Date(1999, 03, 03), null).push()
     return true;
 }
 before(main)
@@ -95,14 +96,16 @@ describe('Message handlers', () => {
                 assert.equal((await handleDirectMessage('цитата 1')), '```<Ares> ppdv, все юниксы очень дружелюбны.. они просто очень разборчивы в друзьях ;)```:copyright: bash.im, цитата #1')
             })
         })
-        describe('eval', () => {
-            it('Should work when admin calls it', async function () {
-                assert.equal(await handleDirectMessage('eval "test"', await Member.findBy('admin', true)), '```test```')
+        describe('SQL, eval, evalAsync', () => {
+            it('Should fail on prod', async function () {
+                assert.equal(handleDirectMessage('SQL SELECT * FROM members;', members.admin), "Я вас не понял")
+                assert.equal(handleDirectMessage('eval "evil"', members.admin), "Я вас не понял")
+                assert.equal(handleDirectMessage('evalAsync return "evil"', members.admin), "Я вас не понял")
             })
-            it('Should fail when not-admin calls it', async function () {
-                handleDirectMessage('eval "evilstuff"', await Member.findByName('Петров')).then(() => {
-                    assert.fail('bad')
-                }).catch(() => {})
+        })
+        describe('Пользователь', ()=>{
+            it('Should fail when non-admin calls it', ()=>{
+                handleDirectMessage('пользователь добавить Привалов Н.Ъ. 1970-00-01 {}', members.ivanov).then(()=>{assert.fail()}).catch(()=>{})
             })
         })
     })
@@ -115,7 +118,7 @@ describe('Message handlers', () => {
                 assert.equal(await handleGlobalMessage('ебаный мудак!', await Member.findByName('Петров')), "**НЕ МАТЕРИСЬ**")
             })
             it('Should not react to sweary words by admin', async function () {
-                assert.equal(await handleGlobalMessage('ебаный мудак!', await Member.findBy('admin', true)), undefined)
+                assert.equal(await handleGlobalMessage('ебаный мудак!', members.admin), undefined)
             })
         })
     })
