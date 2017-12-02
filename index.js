@@ -22,6 +22,8 @@ const Discord = require('discord.js');
 
 const client = new Discord.Client();
 
+global.ENVIRONMENT = process.env.ENVIRONMENT
+
 global.DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 
 global.DISCORD_UID = process.env.DISCORD_UID;

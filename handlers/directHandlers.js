@@ -64,16 +64,31 @@ const directHandlers = {
         }
     },
     "eval (.*)": async function (text, author, match) {
+        if (global.ENVIRONMENT == "PRODUCTION") return "Я вас не понял"
         if (!author.extra.admin) throw "Недостаточно прав"
         return '```' + eval(match[1]) + '```'
     },
     "evalAsync (.*)": async function (text, author, match) {
+        if (global.ENVIRONMENT == "PRODUCTION") return "Я вас не понял"
         if (!author.extra.admin) throw "Недостаточно прав"
         return '```' + await eval('async function a() {' + match[1] + '};a')() + '```'
     },
     "SQL (.*)": async function (text, author, match) {
+        if (global.ENVIRONMENT == "PRODUCTION") return "Я вас не понял"
         if (!author.extra.admin) throw "Недостаточно прав"
         return '```' + JSON.stringify(await global.db.query(match[1])) + '```'
+    },
+    "пользовател(?:и|ь) добавить ([\u0400-\u04FF]*? [\u0400-\u04FF]\.[\u0400-\u04FF]\.) ([-1-9]) (\{.*\})": async function (text, author, match) {
+        if (!author.extra.admin) throw "Недостаточно прав"
+        var name = match[1]
+        var birthdate = new Date(match[2])
+        var extra = JSON.parse(match[3])
+        await (new Member(name, birthdate, extra))
+    },
+    "пользовател(?:и|ь) удалить ([\u0400-\u04FF]*)": async function (text, author, match) {
+        if (!author.extra.admin) throw "Недостаточно прав"
+        var name = match[1]
+        await (await Member.findByName(name)).delete()
     }
 }
 module.exports = directHandlers
