@@ -85,7 +85,6 @@ async function main() {
 	var clients = [
 		new DiscordClient(handleDirectMessage, handleGlobalMessage)
 	]
-	clients[0].sendMessage("I'm online!")
 	await checkForBirthdays(await Member.getAll(), clients)
 }
 main()
