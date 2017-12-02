@@ -136,10 +136,12 @@ describe('Clients', () => {
     describe('Discord', () => {
         it('Should connect', async function () {
             clients['discord'] = new DiscordClient(handleDirectMessage, handleGlobalMessage)
-            assert.ok(await clients['discord'].ready)
         })
         it('Should send messages', async function() {
             assert.ok(await clients.discord.sendMessage('Hey! Test!'))
         })
     })
+})
+after(()=>{
+    clients.discord._client.destroy()
 })
