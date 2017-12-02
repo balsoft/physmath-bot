@@ -78,7 +78,7 @@ const directHandlers = {
         if (!author.extra.admin) throw "Недостаточно прав"
         return '```' + JSON.stringify(await global.db.query(match[1])) + '```'
     },
-    "пользовател(?:и|ь) добавить ([\u0400-\u04FF]*? [\u0400-\u04FF]\.[\u0400-\u04FF]\.) ([-1-9]) (\{.*\})": async function (text, author, match) {
+    "пользовател(?:и|ь) добавить ([\u0400-\u04FF]*? [\u0400-\u04FF]\.[\u0400-\u04FF]\.) (.*?) ({.*})": async function (text, author, match) {
         if (!author.extra.admin) throw "Недостаточно прав"
         var name = match[1]
         var birthdate = new Date(match[2])
@@ -89,6 +89,10 @@ const directHandlers = {
         if (!author.extra.admin) throw "Недостаточно прав"
         var name = match[1]
         await (await Member.findByName(name)).delete()
+    },
+    "пользовател(?:и|ь) изменить ([\u0400-\u04FF]*?) установить (.*?) в (.*)": async function (text, author, match) {
+        if (!author.extra.admin) throw "Недостаточно прав"
+        (await Member.findByName(match[1])).extra[match[2]] = JSON.parse(match[3])
     }
 }
 module.exports = directHandlers
