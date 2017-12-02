@@ -10,6 +10,14 @@ class DiscordClient {
      */
     constructor(handleDirectMessage, handleGlobalMessage) {
         this._client = new Discord.Client()
+        this.ready = new Promise((resolve, reject) => {
+            this._client.on('ready', () => {
+                resolve()
+            })
+            this._client.on("error", ()=>{
+                reject()
+            })
+        })
         this._client.on('message', async function (message) {
             var response, author
             try {
@@ -34,9 +42,7 @@ class DiscordClient {
             }
             if (response)
                 message.channel.send(`<@${message.author.id}>, ${response}`)
-        })
-        this._client.login(global.DISCORD_TOKEN)
-        this._hook = new Discord.WebhookClient(global.DISCORD_HOOK_UID, global.DISCORD_HOOK_TOKEN)
+        }) this._client.login(global.DISCORD_TOKEN) this._hook = new Discord.WebhookClient(global.DISCORD_HOOK_UID, global.DISCORD_HOOK_TOKEN)
     }
     /**
      * 

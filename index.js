@@ -85,6 +85,7 @@ async function main() {
 	var clients = [
 		new DiscordClient(handleDirectMessage, handleGlobalMessage)
 	]
+	await Promise.all(clients.map((v)=>v.ready))
 	await checkForBirthdays(await Member.getAll(), clients)
 }
 main()
