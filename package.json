@@ -1,6 +1,6 @@
 {
   "name": "physmath-bot",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Physmath bot",
   "engines": {
     "node": "9.x.x"

@@ -92,7 +92,13 @@ const directHandlers = {
     },
     "пользовател(?:и|ь) изменить ([\u0400-\u04FF]*?) установить (.*?) в (.*)": async function (text, author, match) {
         if (!author.extra.admin) throw "Недостаточно прав"
-        (await Member.findByName(match[1])).extra[match[2]] = JSON.parse(match[3])
+        const member = await Member.findByName(match[1])
+        member.extra[match[2]] = JSON.parse(match[3])
+    },
+    "пользовател(?:и|ь) (.*?) это <@(\\d*)>": async function (text, author, match) {
+        if (!author.extra.admin) throw "Недостаточно прав"
+        const member = await Member.findByName(match[1])
+        member.extra.discordid = match[2]
     }
 }
 module.exports = directHandlers
