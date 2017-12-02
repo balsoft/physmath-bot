@@ -51,7 +51,7 @@ class DiscordClient {
      * @param {string} msg 
      */
     async sendMessage(msg) {
-        return this._hook.send(msg)
+        return await this._hook.send(msg)
     }
 }
 
