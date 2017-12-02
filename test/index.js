@@ -98,9 +98,9 @@ describe('Message handlers', () => {
         })
         describe('SQL, eval, evalAsync', () => {
             it('Should fail on prod', async function () {
-                assert.equal(handleDirectMessage('SQL SELECT * FROM members;', members.admin), "Я вас не понял")
-                assert.equal(handleDirectMessage('eval "evil"', members.admin), "Я вас не понял")
-                assert.equal(handleDirectMessage('evalAsync return "evil"', members.admin), "Я вас не понял")
+                assert.equal(await handleDirectMessage('SQL SELECT * FROM members;', members.admin), "Я вас не понял")
+                assert.equal(await handleDirectMessage('eval "evil"', members.admin), "Я вас не понял")
+                assert.equal(await handleDirectMessage('evalAsync return "evil"', members.admin), "Я вас не понял")
             })
         })
         describe('Пользователь', ()=>{
