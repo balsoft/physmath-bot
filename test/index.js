@@ -29,7 +29,7 @@ async function main() {
     members.ivanov = new Member('Иванов И.И.', new Date(1999, 01, 01), null)
     members.petrov = new Member('Петров П.П.', new Date(1999, 02, 02), null)
     members.sidorov = new Member('Сидоров С.С.', new Date(1999, 03, 03), null)
-    await Promise.all(members.admin.push(), members.ivanov.push(), members.petrov.push(), members.sidorov.push())
+    await Promise.all([members.admin.push(), members.ivanov.push(), members.petrov.push(), members.sidorov.push()])
     return true;
 }
 before(main)
