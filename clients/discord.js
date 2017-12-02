@@ -45,6 +45,7 @@ class DiscordClient {
         }) 
         this._client.login(global.DISCORD_TOKEN) 
         this._hook = new Discord.WebhookClient(global.DISCORD_HOOK_UID, global.DISCORD_HOOK_TOKEN)
+        
     }
     /**
      * 

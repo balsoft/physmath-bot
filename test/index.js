@@ -140,8 +140,8 @@ describe('Clients', () => {
         it('Should send messages', async function() {
             assert.ok(await clients.discord.sendMessage('Hey! Test!'))
         })
+        after(async function() {
+            await clients['discord'].destroy() 
+        })
     })
-})
-after(()=>{
-    clients.discord._client.destroy()
 })
