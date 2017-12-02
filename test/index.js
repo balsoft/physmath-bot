@@ -23,12 +23,13 @@ async function main() {
         connectionString: DATABASE_URL
     });
     await global.db.query(`CREATE TABLE members (name TEXT PRIMARY KEY, birthdate DATE, extra JSON)`)
-    members.admin = await new Member('John D.', new Date(2000, 05, 15), {
+    members.admin =  new Member('John D.', new Date(2000, 05, 15), {
         admin: true
-    }).push()
-    members.ivanov = await new Member('Иванов И.И.', new Date(1999, 01, 01), null).push()
-    members.petrov = await new Member('Петров П.П.', new Date(1999, 02, 02), null).push()
-    members.sidorov = await new Member('Сидоров С.С.', new Date(1999, 03, 03), null).push()
+    })
+    members.ivanov = new Member('Иванов И.И.', new Date(1999, 01, 01), null)
+    members.petrov = new Member('Петров П.П.', new Date(1999, 02, 02), null)
+    members.sidorov = new Member('Сидоров С.С.', new Date(1999, 03, 03), null)
+    await Promise.all(members.admin.push(), members.ivanov.push(), members.petrov.push(), members.sidorov.push())
     return true;
 }
 before(main)
