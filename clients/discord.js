@@ -14,7 +14,7 @@ class DiscordClient {
             this._client.on('ready', () => {
                 resolve()
             })
-            this._client.on("error", ()=>{
+            this._client.on("error", () => {
                 reject()
             })
         })
@@ -42,7 +42,9 @@ class DiscordClient {
             }
             if (response)
                 message.channel.send(`<@${message.author.id}>, ${response}`)
-        }) this._client.login(global.DISCORD_TOKEN) this._hook = new Discord.WebhookClient(global.DISCORD_HOOK_UID, global.DISCORD_HOOK_TOKEN)
+        })
+        this._client.login(global.DISCORD_TOKEN)
+        this._hook = new Discord.WebhookClient(global.DISCORD_HOOK_UID, global.DISCORD_HOOK_TOKEN)
     }
     /**
      * 
