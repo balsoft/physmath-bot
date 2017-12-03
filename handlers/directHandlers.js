@@ -110,8 +110,7 @@ const directHandlers = {
         return '<@' + match[1] + '> - не мусор, сам ты мусор'
     },
     "<@(\\d*)> жена": async function (text, author, match) {
-        return `\`\`\`
-Для <@${match[1]}>:
+        return `Для <@${match[1]}>:\`\`\`
 Лежу
 на чужой
 жене,
