@@ -132,6 +132,7 @@ describe('Message handlers', () => {
         })
     })
 })
+/*
 describe('Clients', () => {
     describe('Discord', () => {
         it('Should connect', async function () {
@@ -148,3 +149,4 @@ describe('Clients', () => {
         })
     })
 })
+*/
