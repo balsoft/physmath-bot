@@ -106,8 +106,8 @@ const directHandlers = {
         member.extra.discordid = match[2]
         return 'Ok'
     },
-    "мусор": async function (text, author, match) {
-        return 'сам ты мусор'
+    "<@(\\d*)> мусор": async function (text, author, match) {
+        return '<@' + match[1] + '> - не мусор, сам ты мусор'
     }
 
 }
