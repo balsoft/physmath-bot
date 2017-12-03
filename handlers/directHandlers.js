@@ -17,6 +17,7 @@ const directHandlers = {
     "др ближайший|ближайший др": async function (text, author, match) {
         const members = await Member.getAll()
         var min = 365
+        //comment privet
         var closest
         for (var i in members) {
             if (daysTillEvent(members[i].birthdate) < min) {
