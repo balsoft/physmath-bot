@@ -110,7 +110,7 @@ const directHandlers = {
         return '<@' + match[1] + '> - не мусор, сам ты мусор'
     },
     "<@(\\d*)> жена": async function (text, author, match) {
-        return ` для <@${match[1]}>:\`\`\`
+        return `для <@${match[1]}>:\`\`\`
 Лежу
 на чужой
 жене,
@@ -133,7 +133,11 @@ const directHandlers = {
 \`\`\`
 :copyright:Маяковский`
 
+    },
+    "привет|hello": async function (text, author, match) {
+        return "привет"
     }
+    
 
 }
 module.exports = directHandlers
