@@ -19,6 +19,7 @@ class DiscordClient {
             })
         })
         this._client.on('message', async function (message) {
+            console.log(message)
             var response, author
             try {
                 author = await Member.findBy('discordid', message.author.id)
