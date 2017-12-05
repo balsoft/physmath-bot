@@ -57,7 +57,7 @@ async function checkForBirthdays(members, clients) {
 	var messages = []
 	for (var i in members) {
 		if (daysTillEvent(members[i].birthdate) == 3) {
-			message.push(`Через 3 дня рождения празднует ${members[i].name}!`)
+			messages.push(`Через 3 дня рождения празднует ${members[i].name}!`)
 		} else if (daysTillEvent(members[i].birthdate) == 1) {
 			messages.push(`Завтра день рождения празднует ${members[i].name}!`)
 		} else if (daysTillEvent(members[i].birthdate) == 0) {
