@@ -138,7 +138,7 @@ const directHandlers = {
         return "привет"
     },
     "пошути|шуткани": async function (text, author, match) {
-        return "колобок повесился!"
+        if (Math.random()>0.5) {return 'Колобок повесился!'} else {return 'Рыкба утонула!'}
     },
     "Антон": async function (text, author, match) {
         return "Анимешник!(и Аня заодно!)"
