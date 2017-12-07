@@ -142,6 +142,9 @@ const directHandlers = {
     },
     "Антон": async function (text, author, match) {
         return "Анимешник!(и Аня заодно!)"
+    },
+    "аниме": async function (text, author, match) {
+        if (Math.random()>0.5) {return 'сам ты аниме'} else {return 'НЕНАВИЖУ АНИМЕ, ОНО ДЛЯ ДАУНОВ'}
     }
     
 
