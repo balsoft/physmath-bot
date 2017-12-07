@@ -136,6 +136,12 @@ const directHandlers = {
     },
     "привет|hello": async function (text, author, match) {
         return "привет"
+    },
+    "пошути|шуткани": async function (text, author, match) {
+        return "колобок повесился!"
+    },
+    "Антон": async function (text, author, match) {
+        return "Анимешник!(и Аня заодно!)"
     }
     
 
