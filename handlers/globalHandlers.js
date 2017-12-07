@@ -7,7 +7,7 @@ const globalHandlers = {
             return "**НЕ МАТЕРИСЬ**"
     },
     "аниме|мультик|антон": async function (text, author, match) {
-        if (Math.random()>0.5) {return 'сам ты аниме'} else {return 'НЕНАВИЖУ АНИМЕ, ОНО ДЛЯ ДАУНОВ'}
+        if (Math.random()>0.5) {return 'сам ты аниме'} else {return 'НЕНАВИЖУ АНИМЕ, ОНО ДЛЯ АСТРОНОМОВ'}
     }
 }
 module.exports = globalHandlers
