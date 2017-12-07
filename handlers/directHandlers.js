@@ -37,7 +37,7 @@ const directHandlers = {
     "ping": async function (text, author, match) {
         return 'pong'
     },
-    "(?:echo|скажи) (.*)": async function (text, author, match) {
+    "(?:echo|скажи|базарь) (.*)": async function (text, author, match) {
         return match[1]
     },
     "цитата ?(.*)?": async function (text, author, match) {
@@ -148,6 +148,12 @@ const directHandlers = {
     },    
     "аниме": async function (text, author, match) {
         if (Math.random()>0.5) {return 'сам ты аниме'} else {return 'НЕНАВИЖУ АНИМЕ, ОНО ДЛЯ ДАУНОВ'}
+    },
+    "пока": async function (text, author, match) {
+        if (Math.random()>0.5) {return 'пока'} else {return 'покеда'}
+    },
+    "здарова": async function (text, author, match) {
+        return "на фене ботаешь?"
     }
 
 }
